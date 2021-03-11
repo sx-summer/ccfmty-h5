@@ -1,10 +1,6 @@
 <template>
   <div class="hello">
-    <p>
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">{{
-        msg
-      }}</a>
-    </p>
+    <h1>{{ msg }}</h1>
   </div>
 </template>
 
@@ -12,13 +8,13 @@
 export default {
   name: "HelloWorld",
   props: {
-    msg: String,
-  },
+    msg: String
+  }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="less">
 h3 {
   margin: 40px 0 0;
 }
