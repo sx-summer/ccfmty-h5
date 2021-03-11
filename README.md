@@ -1,9 +1,24 @@
-#### 长春疯马体育的企业官网 - h5
+# vant-app
 
-> 文件夹包含H5相关的代码，使用的框架是 [有赞的 vant](https://vant-contrib.gitee.io/vant/#/zh-CN/)，具体使用请参考官方文档
-
-```bash
-cd ccfmty-h5
-yarn
-npm run dev
+## Project setup
 ```
+yarn install
+```
+
+### Compiles and hot-reloads for development
+```
+yarn dev
+```
+
+### Compiles and minifies for production
+```
+yarn build
+```
+
+### Lints and fixes files
+```
+yarn lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
