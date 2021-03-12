@@ -6,7 +6,7 @@
         </template>
         <template #right>
             <van-icon class="head-icon" name="search" size="18" />
-            <router-link to="/login">成绩</router-link>
+            <router-link to="/scoreSearch">成绩</router-link>
         </template>
     </van-nav-bar>
 </template>
