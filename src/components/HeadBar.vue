@@ -1,16 +1,14 @@
 <template>
-  <van-nav-bar
-    class="red"
-    :title="title"
-    @click-left="onClickLeft"
-    :left-arrow="showBack"
-    :fixed="true"
-    :placeholder="true"
-  >
-    <template #right>
-      <van-icon name="search" size="18" />
-    </template>
-</van-nav-bar>
+    <van-nav-bar :title="title" @click-left="onClickLeft" :fixed="true" :placeholder="true" class="head-bg">
+        <template #left v-if="showBack">
+            <van-icon class="head-icon" name="arrow-left" size="18" />
+            <span>返回</span>
+        </template>
+        <template #right>
+            <van-icon class="head-icon" name="search" size="18" />
+            <router-link to="/login">成绩</router-link>
+        </template>
+    </van-nav-bar>
 </template>
 
 <script>
@@ -31,35 +29,39 @@
         },
         computed: {
             showBack() {
-                let needBack = this.needBack === "true" ? true : false;
+                let needBack = this.needBack === "false" ? false : true;
                 return needBack;
             },
         },
         methods: {
             onClickLeft() {
-                window.history.back();
-            },
+                window.history.back(-1);
+            }
         },
     };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-    h3 {
-        margin: 40px 0 0;
+    .head-icon {
+        margin: -2px 2px 0 0;
+        color: #ffffff;
     }
-    
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
-    
-    li {
-        display: inline-block;
-        margin: 0 10px;
-    }
-    
+
     a {
-        color: #42b983;
+        color: #ffffff;
     }
+
+</style>
+
+<style lang="less">
+    .head-bg .van-nav-bar {
+        background: #ee0a24;
+        color: #ffffff;
+    }
+
+    .head-bg .van-nav-bar__title {
+        color: #ffffff;
+    }
+
 </style>

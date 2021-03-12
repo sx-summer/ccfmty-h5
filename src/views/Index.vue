@@ -1,11 +1,14 @@
 <template>
-  <div class="home">
-    <HeadBar title="首页" needBack = "true" />
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <div class="box">
-      <van-button type="info" @click="onSubmit">我是首页</van-button>
+    <div class="home">
+        <HeadBar title="首页" needBack="false" />
+        <img alt="Vue logo" src="../assets/logo.png" />
+        <div class="box">
+            <van-button type="info" @click="onSubmit">我是首页</van-button>
+        </div>
+        <router-link to="/">Home</router-link> |
+        <router-link to="/login">login</router-link> |
+        <router-link to="/user">user</router-link> |
     </div>
-  </div>
 </template>
 
 <script>
@@ -23,7 +26,6 @@
         },
         data() {
             return {
-                checkedGoods: ["1", "2", "3"]
             };
         },
         computed: {
@@ -34,14 +36,13 @@
 
         methods: {
             onSubmit() {
-                Toast("点击结算");
+                Toast("首页");
             }
         }
     };
 </script>
-<style lang="less">
-    .box {
-        height: 1000px;
-        background-color: #f8f8f8;
-    }
+<style scope lang="less">
+.home{
+    text-align: center;
+}
 </style>

@@ -1,25 +1,21 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <!-- <router-link to="/">Home</router-link> |
-      <router-link to="/login">login</router-link> |
-      <router-link to="/person">person</router-link> | -->
-      <van-tabbar route v-model="active" active-color="#ee0a24" inactive-color="#000000" @change="onChange">
-        <van-tabbar-item replace to="/index" name="index" icon="wap-home">首页</van-tabbar-item>
-        <van-tabbar-item replace to="/gameList" name="game" icon="hot">赛事</van-tabbar-item>
-        <van-tabbar-item replace to="/newsList" name="news" icon="comment">新闻</van-tabbar-item>
-        <van-tabbar-item replace to="/person" name="person" icon="friends">我的</van-tabbar-item>
-      </van-tabbar>
+    <div id="app">
+        <div id="nav">
+            <van-tabbar router v-model="active" active-color="#ee0a24" inactive-color="#000000" @change="onChange">
+                <van-tabbar-item to="/index" name="index" icon="wap-home">首页</van-tabbar-item>
+                <van-tabbar-item to="/gameList" name="game" icon="hot">赛事</van-tabbar-item>
+                <van-tabbar-item to="/newsList" name="news" icon="comment">新闻</van-tabbar-item>
+                <van-tabbar-item to="/user" name="user" icon="friends">我的</van-tabbar-item>
+            </van-tabbar>
+        </div>
+        <router-view />
     </div>
-    <router-view />
-  </div>
 </template>
 <script>
     import {
         Tabbar,
-        TabbarItem,
-        Toast
-    } from "vant"; //Notify
+        TabbarItem
+    } from "vant";
     export default {
         name: "Home",
         components: {
@@ -28,27 +24,27 @@
         },
         data() {
             return {
-                checkedGoods: ["1", "2", "3"],
                 active: "index"
             };
         },
         computed: {
-            totalPrice() {
-                return "1233";
-            }
+            
         },
-
+        mounted() {
+            this.initBottomBar(window.location.href);
+        },
         methods: {
             onChange(index) {
                 this.active = index;
-                // Notify({ type: "primary", message: index });
-
             },
-            onClickLeft() {
-
-            },
-            onSubmit() {
-                Toast("点击结算");
+            initBottomBar(url) {
+                if(url.indexOf('/game') > -1){
+                    this.active = 'game';
+                }else   if(url.indexOf('/news') > -1){
+                    this.active = 'game';
+                }else if(url.indexOf('/user') > -1) {
+                    this.active = 'user';
+                }
             }
         }
     };
@@ -59,4 +55,5 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
+
 </style>

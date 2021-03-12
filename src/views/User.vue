@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <HeadBar title="报名列表" />
+    <HeadBar title="个人中心" />
     <div class="box">
-      <van-button type="info" @click="onSubmit">报名列表</van-button>
+      <van-button type="info" @click="onSubmit">个人中心</van-button>
     </div>
   </div>
 </template>
@@ -28,7 +28,7 @@
     },
     methods: {
       onSubmit() {
-        Toast("报名列表");
+        Toast("个人中心");
       }
     }
   };

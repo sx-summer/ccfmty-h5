@@ -1,5 +1,41 @@
 <template>
   <div class="home">
-    <h3>新闻详情</h3>
+    <HeadBar title="新闻详情" />
+    <div class="box">
+      <van-button type="info" @click="onSubmit">新闻详情</van-button>
+    </div>
   </div>
 </template>
+
+<script>
+  import HeadBar from "@/components/HeadBar.vue";
+  import {
+    Toast,
+    Button
+  } from "vant";
+
+  export default {
+    name: "home",
+    components: {
+      HeadBar,
+      [Button.name]: Button
+    },
+    data() {
+      return {
+      };
+    },
+    computed: {
+    },
+    methods: {
+      onSubmit() {
+        Toast("新闻详情");
+      }
+    }
+  };
+</script>
+<style scope lang="less">
+  .home {
+    text-align: center;
+  }
+
+</style>

@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Index from "../views/Index.vue";
-import Person from "../views/Person.vue";
+import user from "../views/user.vue";
 import Login from "../views/Login.vue";
 import GameList from "../views/GameList.vue";
 import GameDetail from "../views/GameDetail.vue";
@@ -22,9 +22,9 @@ const routes = [{
         component: Index
     },
     {
-        path: "/person",
-        name: "Person",
-        component: Person
+        path: "/user",
+        name: "user",
+        component: user
     },
     {
         path: "/login",
