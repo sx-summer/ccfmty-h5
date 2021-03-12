@@ -1,9 +1,8 @@
 <template>
   <div class="home">
-    <h3>我是首页</h3>
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
     <HelloWorld msg="Welcome to Vue.js" />
-    <van-button type="info" @click="onSubmit">信息按钮</van-button>
+    <van-button type="info" @click="onSubmit">我是首页</van-button>
   </div>
 </template>
 
