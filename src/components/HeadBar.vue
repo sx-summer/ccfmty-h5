@@ -56,7 +56,7 @@
 
 <style lang="less">
     .head-bg .van-nav-bar {
-        background: #ee0a24;
+        background: #e50021;
         color: #ffffff;
     }
 

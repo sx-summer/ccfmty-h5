@@ -3,7 +3,7 @@
     <li v-for="(item, index) in funObj" :key="index">
       <a :href="item.href">
         <van-icon class="item-icon" :name="item.icon" />
-        广告图片
+        赛事活动列表
       </a>
     </li>
   </ul>

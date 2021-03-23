@@ -3,7 +3,7 @@
     <li v-for="(item, index) in funObj" :key="index">
       <a :href="item.href">
         <van-icon class="item-icon" :name="item.icon" />
-        广告图片
+        <span>{{item.text}}</span>
       </a>
     </li>
   </ul>
