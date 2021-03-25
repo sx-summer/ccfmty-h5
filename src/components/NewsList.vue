@@ -1,16 +1,21 @@
 <template>
-  <ul class="function-bar">
-    <li v-for="(item, index) in funObj" :key="index">
-      <a :href="item.href">
-        <van-icon class="item-icon" :name="item.icon" />
-        新闻列表
-      </a>
-    </li>
-  </ul>
+  <div>
+    <ItemTitle title="新闻列表" href="http://ccfmty.com" :needMore="true"></ItemTitle>
+    <ul class="function-bar">
+      <li v-for="(item, index) in funObj" :key="index">
+        <a :href="item.href">
+          <van-icon class="item-icon" :name="item.icon" />
+          新闻列表
+        </a>
+      </li>
+    </ul>
+  </div>
+
 </template>
 
 <script>
   import { Toast } from "vant";
+  import ItemTitle from "@/components/ItemTitle.vue";
 
   export default {
     name: "FunctionBar",
@@ -18,6 +23,7 @@
       funObj: Array
     },
     components: {
+      ItemTitle
       // [Tabbar.name]: Tabbar,
     },
     data() {
@@ -38,13 +44,14 @@
   };
 </script>
 <style lang="less" scope>
-  .function-bar{
+  .function-bar {
     width: 100%;
     overflow: hidden;
     margin-top: -5px;
     font-size: 14px;
   }
-  .function-bar li{
+
+  .function-bar li {
     width: 25%;
     background-color: #e50021;
     float: left;
@@ -52,15 +59,18 @@
     padding: 10px;
     text-align: center;
   }
-  .item-icon{
+
+  .item-icon {
     font-size: 28px;
     display: block;
     margin-bottom: 3px;
   }
-  .function-bar li:nth-child(even){
+
+  .function-bar li:nth-child(even) {
     background-color: #c80a23;
   }
-  a{
+
+  a {
     color: #ffffff;
   }
 

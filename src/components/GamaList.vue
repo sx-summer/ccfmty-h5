@@ -1,16 +1,24 @@
 <template>
-  <ul class="function-bar">
-    <li v-for="(item, index) in funObj" :key="index">
-      <a :href="item.href">
-        <van-icon class="item-icon" :name="item.icon" />
-        赛事活动列表
-      </a>
-    </li>
-  </ul>
+  <div>
+    
+    <ItemTitle title="赛事活动列表" href="http://ccfmty.com" :needMore="true"></ItemTitle>
+
+    <ul class="function-bar">
+      <li v-for="(item, index) in funObj" :key="index">
+        <a :href="item.href">
+          <van-icon class="item-icon" :name="item.icon" />
+          赛事活动列表
+        </a>
+      </li>
+    </ul>
+  </div>
+  
 </template>
 
 <script>
   import { Toast } from "vant";
+  import ItemTitle from "@/components/ItemTitle.vue";
+
 
   export default {
     name: "FunctionBar",
@@ -18,6 +26,7 @@
       funObj: Array
     },
     components: {
+      ItemTitle
       // [Tabbar.name]: Tabbar,
     },
     data() {

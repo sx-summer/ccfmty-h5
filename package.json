@@ -4,6 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "vue-cli-service serve --port 9999 --host dev.ccfmty.com",
+        "serve": "vue-cli-service serve --port 9999",
         "build": "vue-cli-service build",
         "lint": "vue-cli-service lint"
     },
@@ -31,10 +32,11 @@
             "node": true
         },
         "extends": [
-            "plugin:vue/essential",
-            "eslint:recommended"
+            "plugin:vue/essential"
         ],
-        "rules": {},
+        "rules": {
+            "no-debugger": 0
+        },
         "parserOptions": {
             "parser": "babel-eslint"
         }

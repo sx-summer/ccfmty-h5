@@ -10,16 +10,27 @@
         </van-swipe>
         <!-- 功能模块 -->
         <FunctionBar :funObj = "funObj" ></FunctionBar>
-        
-        <div>
-            <van-button type="info" @click="onSubmit">我是首页</van-button>
-        </div>
+        <!-- 赛事活动 -->
+        <GamaList></GamaList>
+        <!-- 新闻公告 -->
+        <NewsList></NewsList>
+        <!-- 赛事专供 -->
+        <AdList></AdList>
+        <!-- 冠名商logo -->
+        <LogoList></LogoList>
+        <!-- 版权相关 -->
+        <BottomBar></BottomBar>
     </div>
 </template>
 
 <script>
     import HeadBar from "@/components/HeadBar.vue";
     import FunctionBar from "@/components/FunctionBar.vue";
+    import GamaList from "@/components/GamaList.vue";
+    import NewsList from "@/components/NewsList.vue";
+    import AdList from "@/components/AdList.vue";
+    import LogoList from "@/components/LogoList.vue";
+    import BottomBar from "@/components/BottomBar.vue";
 
     import {
         Toast,
@@ -38,7 +49,12 @@
             [Swipe.name]: Swipe,
             [SwipeItem.name]: SwipeItem,
             [VanImage.name]: VanImage,
-            FunctionBar
+            FunctionBar,
+            GamaList,
+            NewsList,
+            AdList,
+            LogoList,
+            BottomBar
         },
         data() {
             return {
