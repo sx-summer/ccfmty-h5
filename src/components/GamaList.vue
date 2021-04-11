@@ -10,8 +10,8 @@
             <div class="activeBtn">
               <van-button size="small" v-if="item.state === 1" type="info">准备中</van-button>
               <van-button size="small" v-if="item.state === 2" type="danger">报名中</van-button>
-              <van-button block round size="small" v-if="item.state === 3" type="warning">进行中</van-button>
-              <van-button block round size="small" v-if="item.state === 4" type="danger" disabled>已结束</van-button>
+              <van-button size="small" v-if="item.state === 3" type="warning">进行中</van-button>
+              <van-button size="small" v-if="item.state === 4" type="danger" disabled>已结束</van-button>
             </div>
           </div>
           <div class="activeInfo">
@@ -86,12 +86,16 @@
 
   .activeBtn {
     position: absolute;
-    right: 0;
-    bottom: 38px;
-    background: #e50021;
+    right: -10px;
+    bottom: 48px;
     color: #fff;
     margin: 0;
     padding: 0 10px;
+  }
+
+  .activeBtn .van-button{
+    width: 80px;
+    height: 26px;
   }
 
   .activeIcon {
@@ -138,9 +142,13 @@
   }
 
   .twoList .activeBtn{
-    bottom: 6px;
+    bottom: 16px;
   }
 
+  .twoList .activeType{
+    font-size: 14px;
+    padding: 1px 10px;
+  }
 
   .activeType {
     position: absolute;
@@ -149,13 +157,14 @@
     background: #e50021;
     color: #fff;
     margin: 0;
-    padding: 0 10px;
+    padding: 3px 10px;
+    font-size: 14px;
   }
 
   .activeName {
     position: absolute;
     left: 0;
-    bottom: 5px;
+    bottom: 15px;
     background: rgba(0, 0, 0, 0.5);
     color: #fff;
     margin: 0;

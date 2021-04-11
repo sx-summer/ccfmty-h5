@@ -9,10 +9,11 @@ import NewsList from "../views/NewsList.vue";
 import NewsDetail from "../views/NewsDetail.vue";
 import ScoreSearch from "../views/ScoreSearch.vue";
 import SearchList from "../views/SearchList.vue";
-
 import MyGame from "../views/MyGame.vue";
 import MyInfo from "../views/MyInfo.vue";
 import MyCertificate from "../views/MyCertificate.vue";
+import GameSignUp from "../views/GameSignUp.vue";
+
 
 Vue.use(VueRouter);
 const routes = [
@@ -25,6 +26,11 @@ const routes = [
         path: "/index",
         name: "Index",
         component: Index
+    },
+    {
+        path: "/gameSignUp",
+        name: "GameSignUp",
+        component: GameSignUp
     },
     {
         path: "/myGame",
