@@ -10,8 +10,13 @@ import NewsDetail from "../views/NewsDetail.vue";
 import ScoreSearch from "../views/ScoreSearch.vue";
 import SearchList from "../views/SearchList.vue";
 
+import MyGame from "../views/MyGame.vue";
+import MyInfo from "../views/MyInfo.vue";
+import MyCertificate from "../views/MyCertificate.vue";
+
 Vue.use(VueRouter);
-const routes = [{
+const routes = [
+    {
         path: "/",
         name: "Index",
         component: Index
@@ -20,6 +25,21 @@ const routes = [{
         path: "/index",
         name: "Index",
         component: Index
+    },
+    {
+        path: "/myGame",
+        name: "MyGame",
+        component: MyGame
+    },
+    {
+        path: "/myInfo",
+        name: "MyInfo",
+        component: MyInfo
+    },
+    {
+        path: "/myCertificate",
+        name: "MyCertificate",
+        component: MyCertificate
     },
     {
         path: "/user",
@@ -37,7 +57,7 @@ const routes = [{
         component: GameList
     },
     {
-        path: "/gameDetai",
+        path: "/gameDetail",
         name: "GameDetail",
         component: GameDetail
     },

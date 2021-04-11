@@ -1,33 +1,55 @@
 <template>
   <div>
-    
-    <ItemTitle title="赛事活动列表" href="http://ccfmty.com" :needMore="true"></ItemTitle>
+    <ul :class="fromIndex ? 'twoList' : 'gameItem' ">
+      <li v-for="(item, index) in gameList" :key="index">
+        <a :href='`gameDetail?matchId=${item.id}`' class="activeItem">
+          <div class="gameTop">
+            <van-image fit="cover" lazy-load class="activeImg" :src="item.pictureUrl" :alt="item.matchName" />
+            <p class="activeType">{{item.onLine === 1 ? '线上赛' : '线下赛'}}</p>
+            <p class="activeName" v-if="!fromIndex">{{ item.matchName }}</p>
+            <div class="activeBtn">
+              <van-button size="small" v-if="item.state === 1" type="info">准备中</van-button>
+              <van-button size="small" v-if="item.state === 2" type="danger">报名中</van-button>
+              <van-button block round size="small" v-if="item.state === 3" type="warning">进行中</van-button>
+              <van-button block round size="small" v-if="item.state === 4" type="danger" disabled>已结束</van-button>
+            </div>
+          </div>
+          <div class="activeInfo">
+            <div class="matchName" v-if="fromIndex">{{ item.matchName }}</div>
+            <div v-if="!fromIndex">
+              <div class="activeText">
+                <van-icon name="flag-o" class="activeIcon" />比赛地点：{{item.place}}
+              </div>
+              <div class="activeText">
+                <van-icon name="award-o" class="activeIcon" />报名时间：{{item.startTime}} ~ {{ item.endTime }}
+              </div>
+              <div class="activeText">
+                <van-icon name="todo-list-o" class="activeIcon" />比赛时间：{{ item.matchTime }}
+              </div>
+            </div>
 
-    <ul class="function-bar">
-      <li v-for="(item, index) in funObj" :key="index">
-        <a :href="item.href">
-          <van-icon class="item-icon" :name="item.icon" />
-          赛事活动列表
+          </div>
         </a>
       </li>
     </ul>
   </div>
-  
+
 </template>
 
 <script>
-  import { Toast } from "vant";
-  import ItemTitle from "@/components/ItemTitle.vue";
+  import { Toast, Image as VanImage, Button } from "vant";
 
+  // import ItemTitle from "@/components/ItemTitle.vue";
 
   export default {
     name: "FunctionBar",
     props: {
-      funObj: Array
+      gameList: Array,
+      fromIndex: Boolean
     },
     components: {
-      ItemTitle
-      // [Tabbar.name]: Tabbar,
+      [VanImage.name]: VanImage,
+      [Button.name]: Button,
     },
     data() {
       return {
@@ -35,6 +57,9 @@
       };
     },
     computed: {
+      formatTimeStr(time) {
+        return time;
+      }
     },
     mounted() {
     },
@@ -47,30 +72,95 @@
   };
 </script>
 <style lang="less" scope>
-  .function-bar{
+  .matchName{
+    font-size: 14px;
+    width: 100%;
+    height: 27px;
+    line-height: 30px;
+    overflow: hidden;
+  }
+  .activeItem {
+    display: block;
+    color: #333;
+  }
+
+  .activeBtn {
+    position: absolute;
+    right: 0;
+    bottom: 38px;
+    background: #e50021;
+    color: #fff;
+    margin: 0;
+    padding: 0 10px;
+  }
+
+  .activeIcon {
+    margin-right: 5px;
+  }
+
+  .activeInfo {
+    text-align: left;
+    padding: 0 10px;
+    margin: 0;
+    line-height: 28px;
+    font-size: 15px;
+  }
+
+  .twoList,
+  .gameItem {
     width: 100%;
     overflow: hidden;
-    margin-top: -5px;
-    font-size: 14px;
   }
-  .function-bar li{
-    width: 25%;
-    background-color: #e50021;
+
+  .gameItem li {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .twoList li {
+    width: 50%;
+    padding: 5px;
     float: left;
-    color: #ffffff;
-    padding: 10px;
-    text-align: center;
   }
-  .item-icon{
-    font-size: 28px;
-    display: block;
-    margin-bottom: 3px;
+
+  .gameTop {
+    position: relative;
   }
-  .function-bar li:nth-child(even){
-    background-color: #c80a23;
+
+  .activeImg {
+    width: 100%;
+    height: 200px;
   }
-  a{
-    color: #ffffff;
+
+  .twoList .activeImg{
+    width: 100%;
+    height: 100px;
+  }
+
+  .twoList .activeBtn{
+    bottom: 6px;
+  }
+
+
+  .activeType {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #e50021;
+    color: #fff;
+    margin: 0;
+    padding: 0 10px;
+  }
+
+  .activeName {
+    position: absolute;
+    left: 0;
+    bottom: 5px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    margin: 0;
+    padding: 5px 10px;
+    width: 100%;
   }
 
 </style>

@@ -5,13 +5,16 @@
         <!-- 焦点图 -->
         <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
             <van-swipe-item v-for="(image, index) in images" :key="index">
-                <van-image fit="contain" lazy-load :src="image" alt="蘑菇街" />
+                <van-image fit="contain" lazy-load :src="image" alt="长春疯马体育" />
             </van-swipe-item>
         </van-swipe>
         <!-- 功能模块 -->
-        <FunctionBar :funObj = "funObj" ></FunctionBar>
+        <FunctionBar :funObj="funObj"></FunctionBar>
         <!-- 赛事活动 -->
-        <GamaList></GamaList>
+
+        <ItemTitle title="赛事活动列表" href="http://ccfmty.com" :needMore="true"></ItemTitle>
+        <GamaList :gameList="gameList" :fromIndex="true"></GamaList>
+
         <!-- 新闻公告 -->
         <NewsList></NewsList>
         <!-- 赛事专供 -->
@@ -31,6 +34,10 @@
     import AdList from "@/components/AdList.vue";
     import LogoList from "@/components/LogoList.vue";
     import BottomBar from "@/components/BottomBar.vue";
+    import ItemTitle from "@/components/ItemTitle.vue";
+    import { fetchHttp, formatTime } from "@/util/fn.js";
+
+
 
     import {
         Toast,
@@ -39,8 +46,6 @@
         SwipeItem,
         Image as VanImage
     } from "vant";
-    // import Vue from "vue";
-    // Vue.use(Lazyload);
     export default {
         name: "Home",
         components: {
@@ -54,10 +59,12 @@
             NewsList,
             AdList,
             LogoList,
-            BottomBar
+            BottomBar,
+            ItemTitle
         },
         data() {
             return {
+                gameList: [],
                 images: [
                     'http://ccfmty.com/marathon/%E9%A9%AC%E6%8B%89%E6%9D%BE/3a349a3df9ed4ffb8b06faeab7499e58.jpg',
                     'http://ccfmty.com/marathon/%E9%A9%AC%E6%8B%89%E6%9D%BE/64f00303d6c14f8d8a40b624fc8d4a58.png'
@@ -66,20 +73,44 @@
                     text: "报名查询",
                     icon: "award",
                     href: "/SearchList"
-                },{
+                }, {
                     text: "成绩查询",
                     icon: 'star',
                     href: "/ScoreSearch"
-                },{
+                }, {
                     text: "赛事中心",
                     icon: 'volume',
                     href: "/gameList"
-                },{
+                }, {
                     text: "照片查询",
                     icon: 'photo',
                     href: "/SearchList"
                 }]
             };
+        },
+        mounted() {
+            //首页赛事模块
+            fetchHttp('marathon/match/information', 'POST').then(res => {
+                if (res && res.code === 0) {
+                    const dataList = res && res.data;
+                    let doing = [];
+                    let done = [];
+                    let lastData = [];
+                    dataList && dataList.length > 0 && dataList.forEach((item, index) => {
+                        item.startTime = formatTime(item.startTime)
+                        item.endTime = formatTime(item.endTime)
+                        item.matchTime = formatTime(item.matchTime)
+                        if (item.state === 4) {
+                            done.push(item)
+                        } else {
+                            doing.push(item)
+                        }
+                    })
+                    lastData = doing.concat(done)
+                    this.gameList = lastData.slice(0,4)
+                }
+            });
+
         },
         computed: {
             totalPrice() {
