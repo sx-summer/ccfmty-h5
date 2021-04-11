@@ -38,31 +38,19 @@ export const fetchHttp = (url, params, type, showError) => {
       if (res.code === 0) {
         return res
       } else if (res.code === 300003 || res.code === 300000 || res.code === 300002) {
-        // notification.error({
-        //   message: '提示',
-        //   description: "登录失效，请您去登录！",
-        //   duration: 2
-        // })
+        alert('登录失效，请您去登录！')
         setTimeout(() => {
           window.location.href = loginUrl + '?redirect_url=' + encodeURIComponent(window.location.href);
         }, 2500)
       } else {
         if (!showError) {
-          // notification.error({
-          //   message: '提示',
-          //   description: res.message,
-          //   duration: 2
-          // })
+          return res
         } else {
           return res
         }
       }
     }).catch(() => {
-      // notification.error({
-      //   message: '提示',
-      //   description: '服务器无响应！',
-      //   duration: 2
-      // })
+      alert('服务器无响应！')
     });
 }
 
