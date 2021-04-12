@@ -52,9 +52,16 @@
             </li>
           </ul>
         </van-tab>
-        <van-tab title="赛事规程">赛事规程</van-tab>
-        <van-tab title="领物须知">领物须知</van-tab>
-        <van-tab title="保险信息">保险信息</van-tab>
+
+        <van-tab v-for="(item, index ) in menuList" :title="item.name" :key="index">
+          <NewsContent :newId="item.newSid"></NewsContent>
+        </van-tab>
+
+
+        <!-- <div v-html='newsData.newsContent'>
+          </div> -->
+
+        
       </van-tabs>
 
     </div>
@@ -64,6 +71,8 @@
 <script>
   import HeadBar from "@/components/HeadBar.vue";
   import { getQueryString, fetchHttp, formatTime } from "@/util/fn.js";
+  import NewsContent from "@/components/NewsContent.vue";
+
 
   import {
     Toast,
@@ -79,6 +88,7 @@
       [Button.name]: Button,
       [Tab.name]: Tab,
       [Tabs.name]: Tabs,
+      NewsContent
     },
     data() {
       return {
@@ -86,7 +96,7 @@
         matchInfoAjax: {},
         menuList: [],
         matchId: getQueryString('matchId'),
-        projectList: [{ id: 1, name: '222222' }]
+        projectList: []
       };
     },
     computed: {
@@ -105,6 +115,7 @@
                 }
                 this.matchInfoAjax = res.data;
                 this.menuList = res.data && res.data.newsList;
+                // name: "比赛路线" newSid: ""
                 console.log('matchInfoAjax', this.matchInfoAjax);
                 console.log('menuList', this.menuList);
               } else {

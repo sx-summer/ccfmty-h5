@@ -1,41 +1,42 @@
 <template>
-  <div class="home">
+  <div class="newsDetail">
     <HeadBar title="新闻详情" />
-    <div class="box">
-      <van-button type="info" @click="onSubmit">新闻详情</van-button>
-    </div>
+    <NewsContent :newId="newId"></NewsContent>
   </div>
 </template>
 
 <script>
   import HeadBar from "@/components/HeadBar.vue";
+  import { getQueryString } from "@/util/fn.js";
+  import NewsContent from "@/components/NewsContent.vue";
+
   import {
     Toast,
     Button
   } from "vant";
 
   export default {
-    name: "home",
+    name: "newsDetail",
     components: {
       HeadBar,
-      [Button.name]: Button
+      [Button.name]: Button,
+      NewsContent
     },
     data() {
       return {
+        newId: ''
       };
     },
     computed: {
     },
+    mounted() {
+      let id = getQueryString('newsId');
+      this.newId = id;
+    },
     methods: {
-      onSubmit() {
-        Toast("新闻详情");
-      }
+
     }
   };
 </script>
 <style scope lang="less">
-  .home {
-    text-align: center;
-  }
-
 </style>

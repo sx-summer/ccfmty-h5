@@ -42,7 +42,7 @@
 <script>
 
   import HeadBar from "@/components/HeadBar.vue";
-  import { getQueryString, fetchHttp, setCookie, getCookie } from "@/util/fn.js";
+  import { getQueryString, fetchHttp, setCookie, getCookie, removeCookie } from "@/util/fn.js";
   import {
     Toast,
     Button,
@@ -62,8 +62,8 @@
     },
     data() {
       return {
-        postMobile: '15968175925',
-        postCaptcha: '123456',
+        postMobile: '',
+        postCaptcha: '',
         FMTY_USERDATA: '',
         countdownText: '',
         activeNames: ['1']
@@ -154,10 +154,10 @@
           } else {
             Toast('请填写正确的手机号和验证码！');
           }
-
-        } else {
-          Toast('请填写正确的6位验证码！');
         }
+        //  else {
+        //   Toast('请填写正确的6位验证码！');
+        // }
       },
 
       //退出
@@ -171,6 +171,11 @@
   };
 </script>
 <style scope lang="less">
+.loginBox{
+  background-color: #ffffff;
+  text-align: center;
+  height: calc(100vh - 50px );
+}
   .van-cell--clickable{
     line-height: 30px;
   }

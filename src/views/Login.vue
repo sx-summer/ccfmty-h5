@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="loginView">
     <HeadBar title="登陆" />
     <div class="box">
       <van-button type="info" @click="onSubmit">登陆</van-button>
@@ -15,7 +15,7 @@
   } from "vant";
 
   export default {
-    name: "home",
+    name: "loginView",
     components: {
       HeadBar,
       [Button.name]: Button
@@ -34,7 +34,7 @@
   };
 </script>
 <style scope lang="less">
-  .home {
+  .loginView {
     text-align: center;
   }
 
