@@ -41,7 +41,7 @@
                 if (url.indexOf('/game') > -1) {
                     this.active = 'game';
                 } else if (url.indexOf('/news') > -1) {
-                    this.active = 'game';
+                    this.active = 'news';
                 } else if (url.indexOf('/user') > -1) {
                     this.active = 'user';
                 }

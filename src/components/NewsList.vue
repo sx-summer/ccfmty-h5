@@ -3,7 +3,6 @@
     <ul>
       <li class="news-item" v-for="(item, index) in newsList" :key="index">
         <a :href='`newsDetail?newsId=${item.id}`' class="activeItem">
-         
           <div class="news-img">
             NEWS
           </div>
@@ -25,7 +24,7 @@
   import { Toast, Image as VanImage, Button } from "vant";
 
   export default {
-    name: "NewsList",
+    name: "FunctionBar",
     props: {
       newsList: Array,
       fromIndex: Boolean
@@ -118,4 +117,5 @@
     font-size:14px;
   }
 }
+
 </style>

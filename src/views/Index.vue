@@ -10,21 +10,22 @@
         </van-swipe>
         <!-- 功能模块 -->
         <FunctionBar :funObj="funObj"></FunctionBar>
-        <!-- 赛事活动 -->
 
-        <ItemTitle title="赛事活动" href="http://ccfmty.com" :needMore="true"></ItemTitle>
+        <!-- 赛事活动 -->
+        <ItemTitle title="赛事活动" href="/gameList" :needMore="true"></ItemTitle>
         <GamaList :gameList="gameList" :fromIndex="true"></GamaList>
 
         <!-- 新闻公告 -->
-        <ItemTitle title="新闻公告" href="http://ccfmty.com" :needMore="true"></ItemTitle>
-        <NewsList :newsList="newsList" :fromIndex="true"></NewsList>
+        <ItemTitle title="新闻公告" href="/newsList" :needMore="true"></ItemTitle>
+        <NewsList :newsList="newsList"></NewsList>
 
         <!-- 赛事专供 -->
-        <ItemTitle title="赛事专供" href="http://ccfmty.com" :needMore="true"></ItemTitle>
-        <AdList></AdList>
+        <ItemTitle title="赛事专供" href="http://ccfmty.com" :needMore="false"></ItemTitle>
+        <AdList :adData="adData" ></AdList>
 
         <!-- 冠名商logo -->
-        <LogoList></LogoList>
+        <ItemTitle title="赞助商" href="http://ccfmty.com" :needMore="false"></ItemTitle>
+        <LogoList :logoList="zanzhuLogo"></LogoList>
         <!-- 版权相关 -->
         <BottomBar></BottomBar>
     </div>
@@ -71,6 +72,12 @@
                 gameList: [],
                 newsList:[],
                 zanzhuLogo:[],
+                adData:[
+                    {title:'测试1',url:'', pictureUrl:'http://ccfmty.com/marathon/%E9%A9%AC%E6%8B%89%E6%9D%BE/3a349a3df9ed4ffb8b06faeab7499e58.jpg' },
+                    {title:'测试2',url:'', pictureUrl:'' },
+                    {title:'测试3', url:'', pictureUrl:'' }, 
+                    {title:'测试4', url:'',pictureUrl:'' },
+                ],
                 images: [
                     'http://ccfmty.com/marathon/%E9%A9%AC%E6%8B%89%E6%9D%BE/3a349a3df9ed4ffb8b06faeab7499e58.jpg',
                     'http://ccfmty.com/marathon/%E9%A9%AC%E6%8B%89%E6%9D%BE/64f00303d6c14f8d8a40b624fc8d4a58.png'
@@ -127,6 +134,13 @@
             fetchHttp('marathon/picture/logo', 'POST').then(res => {
                 if (res && res.code === 0) {
                     this.zanzhuLogo = res.data;
+                }
+            });
+
+            //首页赛事专供
+            fetchHttp('marathon/picture/wonderfulPicture', { type: 4 }, 'GET').then(res => {
+            if (res && res.code === 0) {
+                    this.adData = res.data;
                 }
             });
         },
