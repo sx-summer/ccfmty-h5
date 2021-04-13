@@ -1,7 +1,7 @@
 <template>
   <div class="newsDetail">
     <HeadBar title="新闻详情" />
-    <NewsContent :newId="newId"></NewsContent>
+    <NewsContent :newsId="newsId"></NewsContent>
   </div>
 </template>
 
@@ -24,14 +24,14 @@
     },
     data() {
       return {
-        newId: ''
+        newsId: ''
       };
     },
     computed: {
     },
     mounted() {
       let id = getQueryString('newsId');
-      this.newId = id;
+      this.newsId = id;
     },
     methods: {
 

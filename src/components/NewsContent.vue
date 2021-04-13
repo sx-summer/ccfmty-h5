@@ -15,7 +15,7 @@
   export default {
     name: "NewsContent",
     props: {
-      newId: String
+      newsId: String
     },
     components: {
       // [Tabbar.name]: Tabbar,
@@ -34,7 +34,7 @@
     },
     methods: {
       getNewsInfo() {
-        let id = this.newId;
+        let id = this.newsId;
         if (id) {
           //获取新闻详情
           fetchHttp('marathon/newsDetail', { id }, 'GET').then(

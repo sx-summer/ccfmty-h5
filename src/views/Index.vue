@@ -12,13 +12,17 @@
         <FunctionBar :funObj="funObj"></FunctionBar>
         <!-- 赛事活动 -->
 
-        <ItemTitle title="赛事活动列表" href="http://ccfmty.com" :needMore="true"></ItemTitle>
+        <ItemTitle title="赛事活动" href="http://ccfmty.com" :needMore="true"></ItemTitle>
         <GamaList :gameList="gameList" :fromIndex="true"></GamaList>
 
         <!-- 新闻公告 -->
-        <NewsList></NewsList>
+        <ItemTitle title="新闻公告" href="http://ccfmty.com" :needMore="true"></ItemTitle>
+        <NewsList :newsList="newsList" :fromIndex="true"></NewsList>
+
         <!-- 赛事专供 -->
+        <ItemTitle title="赛事专供" href="http://ccfmty.com" :needMore="true"></ItemTitle>
         <AdList></AdList>
+
         <!-- 冠名商logo -->
         <LogoList></LogoList>
         <!-- 版权相关 -->
@@ -65,6 +69,8 @@
         data() {
             return {
                 gameList: [],
+                newsList:[],
+                zanzhuLogo:[],
                 images: [
                     'http://ccfmty.com/marathon/%E9%A9%AC%E6%8B%89%E6%9D%BE/3a349a3df9ed4ffb8b06faeab7499e58.jpg',
                     'http://ccfmty.com/marathon/%E9%A9%AC%E6%8B%89%E6%9D%BE/64f00303d6c14f8d8a40b624fc8d4a58.png'
@@ -110,7 +116,19 @@
                     this.gameList = lastData.slice(0,4)
                 }
             });
+            //首页新闻模块
+            fetchHttp('marathon/newsHomePage', 'POST').then(res => {
+                if (res && res.code === 0) {
+                    this.newsList = res.data;
+                }
+            });
 
+            //首页赞助商logo
+            fetchHttp('marathon/picture/logo', 'POST').then(res => {
+                if (res && res.code === 0) {
+                    this.zanzhuLogo = res.data;
+                }
+            });
         },
         computed: {
             totalPrice() {
