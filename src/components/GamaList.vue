@@ -86,8 +86,8 @@
 
   .activeBtn {
     position: absolute;
-    right: -10px;
-    bottom: 48px;
+    right: -9px;
+    bottom: 47px;
     color: #fff;
     margin: 0;
     padding: 0 10px;
