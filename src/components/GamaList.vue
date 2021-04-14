@@ -110,6 +110,10 @@
     font-size: 15px;
   }
 
+  .twoList .activeInfo{
+    margin-top: -12px;
+  }
+
   .twoList,
   .gameItem {
     width: 100%;
@@ -139,6 +143,7 @@
   .twoList .activeImg{
     width: 100%;
     height: 100px;
+    border:1px solid #f1f1f1;
   }
 
   .twoList .activeBtn{
@@ -170,6 +175,9 @@
     margin: 0;
     padding: 5px 10px;
     width: 100%;
+    height: 33px;
+    overflow: hidden;
+    line-height: 27px;
   }
 
 </style>

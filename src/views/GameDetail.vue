@@ -114,7 +114,12 @@
                   res.data.matchTime = formatTime(res.data.matchTime)
                 }
                 this.matchInfoAjax = res.data;
-                this.menuList = res.data && res.data.newsList;
+                let  menuList = res.data && res.data.newsList;
+                let renderMenuList = [];
+                menuList.forEach((item) => {
+                  item.newSid ? renderMenuList.push(item) : ''
+                });
+                this.menuList = renderMenuList;
                 // name: "比赛路线" newSid: ""
                 console.log('matchInfoAjax', this.matchInfoAjax);
                 console.log('menuList', this.menuList);
