@@ -4,8 +4,10 @@
         <HeadBar title="首页" needBack="false" />
         <!-- 焦点图 -->
         <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-            <van-swipe-item v-for="(image, index) in images" :key="index">
-                <van-image fit="contain" lazy-load :src="image" alt="长春疯马体育" />
+            <van-swipe-item v-for="(item, index) in images" :key="index">
+                <a :href="item.url" target="_blank" rel="noopener noreferrer">
+                    <van-image fit="contain" lazy-load :src="item.imageUrl" alt="长春疯马体育" />
+                </a>
             </van-swipe-item>
         </van-swipe>
         <!-- 功能模块 -->
@@ -84,15 +86,9 @@
                 newsList:[],
                 zanzhuLogo:[],
                 adData:[
-                    {title:'测试1',url:'', pictureUrl:'http://ccfmty.com/marathon/%E9%A9%AC%E6%8B%89%E6%9D%BE/3a349a3df9ed4ffb8b06faeab7499e58.jpg' },
-                    {title:'测试2',url:'', pictureUrl:'' },
-                    {title:'测试3', url:'', pictureUrl:'' }, 
-                    {title:'测试4', url:'',pictureUrl:'' },
+                    // {title:'测试1',url:'', pictureUrl:'http://ccfmty.com/marathon/%E9%A9%AC%E6%8B%89%E6%9D%BE/3a349a3df9ed4ffb8b06faeab7499e58.jpg' },
                 ],
-                images: [
-                    'http://ccfmty.com/marathon/%E9%A9%AC%E6%8B%89%E6%9D%BE/3a349a3df9ed4ffb8b06faeab7499e58.jpg',
-                    'http://ccfmty.com/marathon/%E9%A9%AC%E6%8B%89%E6%9D%BE/64f00303d6c14f8d8a40b624fc8d4a58.png'
-                ],
+                images: [],
                 funObj: [{
                     text: "报名查询",
                     icon: "award",
@@ -112,7 +108,27 @@
                 }]
             };
         },
+        created(){
+           
+        },
         mounted() {
+             //首页焦点图模块
+            fetchHttp('marathon/picture/homePage', 'GET').then(res => {
+                if (res && res.code === 0) {
+                    this.images = res.data;
+                }else{
+                    //默认两张图
+                    this.images = [
+                        {   url:'index',
+                            imageUrl:'http://ccfmty.com/marathon/%E9%A9%AC%E6%8B%89%E6%9D%BE/3a349a3df9ed4ffb8b06faeab7499e58.jpg'
+                        },
+                        {   url:'index',
+                            imageUrl:'http://ccfmty.com/marathon/%E9%A9%AC%E6%8B%89%E6%9D%BE/64f00303d6c14f8d8a40b624fc8d4a58.png'
+                        },
+                    ];
+                }
+            });
+            
             //首页赛事模块
             fetchHttp('marathon/match/information', 'POST').then(res => {
                 if (res && res.code === 0) {
@@ -134,6 +150,7 @@
                     this.gameList = lastData.slice(0,4)
                 }
             });
+            
             //首页新闻模块
             fetchHttp('marathon/newsHomePage', 'POST').then(res => {
                 if (res && res.code === 0) {
