@@ -21,7 +21,7 @@
       <div class="result-box">
 
         <div class="matchs" v-for="(item, index) in searchResult" :key="index">
-          <a class="result-match" :href="`/GameSignUp?userId=${item.userId}&matchId=${item.matchId}&projectId=${item.projectId}`">
+          <a class="result-match" :href="`/personalSignUp?userId=${item.userId}&matchId=${item.matchId}&projectId=${item.projectId}`">
             <span class="name">{{item.matchName}}</span>
             <span class="go">查看详情</span>
           </a>
