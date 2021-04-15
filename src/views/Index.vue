@@ -19,12 +19,19 @@
         <ItemTitle title="新闻公告" href="/newsList" :needMore="true"></ItemTitle>
         <NewsList :newsList="newsList"></NewsList>
 
+        <ItemTitle title="报名查询" ></ItemTitle>
+        <ApplySearch :submitUrl="'/searchList'"></ApplySearch>
+
+        <ItemTitle title="分数查询" ></ItemTitle>
+        <ScoreSearch :submitUrl="'/scoreSearch'"></ScoreSearch>
+
+
         <!-- 赛事专供 -->
-        <ItemTitle title="赛事专供" href="http://ccfmty.com" :needMore="false"></ItemTitle>
+        <ItemTitle title="赛事专供" :needMore="false"></ItemTitle>
         <AdList :adData="adData" ></AdList>
 
         <!-- 冠名商logo -->
-        <ItemTitle title="赞助商" href="http://ccfmty.com" :needMore="false"></ItemTitle>
+        <ItemTitle title="赞助商"  :needMore="false"></ItemTitle>
         <LogoList :logoList="zanzhuLogo"></LogoList>
         <!-- 版权相关 -->
         <BottomBar></BottomBar>
@@ -40,6 +47,8 @@
     import LogoList from "@/components/LogoList.vue";
     import BottomBar from "@/components/BottomBar.vue";
     import ItemTitle from "@/components/ItemTitle.vue";
+    import ApplySearch from "@/components/ApplySearch.vue";
+    import ScoreSearch from "@/components/ScoreSearch.vue";
     import { fetchHttp, formatTime } from "@/util/fn.js";
 
 
@@ -65,6 +74,8 @@
             AdList,
             LogoList,
             BottomBar,
+            ApplySearch,
+            ScoreSearch,
             ItemTitle
         },
         data() {

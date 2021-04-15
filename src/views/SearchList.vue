@@ -1,16 +1,18 @@
 <template>
   <div class="home">
-    <HeadBar title="报名列表" />
-    <div class="box">
-      <van-button type="info" @click="onSubmit">报名列表</van-button>
-    </div>
+    <HeadBar title="报名查询" />
+  
+    <ApplySearch :defaultName="defaultName" :defaultNumber="defaultNumber"></ApplySearch>
+
   </div>
 </template>
 
 <script>
   import HeadBar from "@/components/HeadBar.vue";
+  import ApplySearch from "@/components/ApplySearch.vue";
+  import { getQueryString, fetchHttp } from "@/util/fn.js";
+
   import {
-    Toast,
     Button
   } from "vant";
 
@@ -18,18 +20,22 @@
     name: "home",
     components: {
       HeadBar,
-      [Button.name]: Button
+      [Button.name]: Button,
+      ApplySearch
     },
     data() {
       return {
+        title: '报名查询',
+        defaultName: getQueryString('name'),
+        defaultNumber:getQueryString('number')
       };
     },
     computed: {
     },
+    mounted() {
+    },
     methods: {
-      onSubmit() {
-        Toast("报名列表");
-      }
+      
     }
   };
 </script>
@@ -37,5 +43,5 @@
   .home {
     text-align: center;
   }
-
+  
 </style>
