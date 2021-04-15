@@ -40,8 +40,8 @@
   }
 
   .left-text {
-    background-color: #e50021;
-    color: #fff;
+    /* background-color: #e50021; */
+    color: #e50021;
     padding: 7px 10px;
     margin: 0;
   }

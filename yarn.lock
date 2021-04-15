@@ -1097,6 +1097,11 @@
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
 
+"@vant/area-data@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@vant/area-data/-/area-data-1.0.0.tgz#063af9ccb5ccafa333d7dc28103937501cfec671"
+  integrity sha512-uJKQS3Kkft/H0xW39ip7AneHWjZppmQKqfrdUW1YzHpL9U3PduMq1V6w/j1KIP4FMRAo5SwoUiQs2XRU0PDdFA==
+
 "@vant/icons@1.5.2":
   version "1.5.2"
   resolved "https://registry.npmjs.org/@vant/icons/-/icons-1.5.2.tgz#3f3ea353a0eacd38c113757bd31836489facb10b"
