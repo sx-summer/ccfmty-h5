@@ -5,32 +5,71 @@
       <h3 class="signUpTitle">{{matchName}}</h3>
       <div class="signUpForm">
         <van-form @submit="onSubmit">
+
           <!-- 姓名 -->
-          <van-field v-model="username" name="真实姓名" label="真实姓名" placeholder="真实姓名" :rules="[{ required: true, message: '请填写真实姓名' }]" />
+          <van-field v-model="form.name" name="name" label="真实姓名" placeholder="真实姓名" :rules="[{ required: true, message: '请填写真实姓名' }]" />
           <!-- 性别 -->
-          <van-field name="radio" label="单选框">
+          <van-field name="sex" label="性别">
             <template #input>
-              <van-radio-group v-model="radio" direction="horizontal">
-                <van-radio name="1">单选框 1</van-radio>
-                <van-radio name="2">单选框 2</van-radio>
+              <van-radio-group v-model="form.sex" direction="horizontal">
+                <van-radio name="1">男</van-radio>
+                <van-radio name="2">女</van-radio>
               </van-radio-group>
             </template>
           </van-field>
           <!-- 血型 -->
-          <van-field readonly clickable name="picker" :value="value" label="选择器" placeholder="点击选择城市" @click="showPicker = true" />
-          <van-popup v-model="showPicker" position="bottom">
-            <van-picker show-toolbar :columns="columns" @confirm="onConfirm" @cancel="showPicker = false" />
+          <van-field readonly clickable name="bloodType" label="血型" placeholder="点击选择血型" 
+          v-model="form.bloodType" @click="showBloodType = true" />
+          <van-popup v-model="showBloodType" position="bottom"> 
+            <van-picker show-toolbar :columns="bloodTypeArr" @confirm="onBloodType" @cancel="showBloodType = false" />
           </van-popup>
-          <!-- 地址选择 -->
-          <van-field readonly clickable name="area" :value="address" label="地区选择" placeholder="点击选择省市区" @click="showArea = true" />
+
+          <!-- 衣服尺码 -->
+          <van-field readonly clickable name="dressSize" label="衣服尺码" placeholder="点击选择衣服尺码"
+          v-model="form.dressSize" @click="showDressSize = true" />
+          <van-popup v-model="showDressSize" position="bottom">
+            <van-picker show-toolbar :columns="dressSizeArr" @confirm="onDressSize" @cancel="showDressSize = false" />
+          </van-popup>
+
+          <!-- 证件类型 -->
+          <van-field readonly clickable name="type" label="证件类型" placeholder="点击选择证件类型" 
+          v-model="form.type"  @click="showType = true" />
+          <van-popup v-model="showType" position="bottom">
+            <van-picker show-toolbar :columns="typeArr" @confirm="onType" @cancel="showType = false" />
+          </van-popup>
+
+          <!-- 证件号码 -->
+          <van-field v-model="form.number" name="number" label="证件号码" placeholder="证件号码" :rules="[{ required: true, message: '请填写证件号码' }]" />
+          <!-- 手机号码 -->
+          <van-field v-model="form.tel" name="tel" label="手机号码" placeholder="手机号码" :rules="[{ required: true, message: '请填写手机号码' }]" />
+          <!-- 紧急联系人 -->
+          <van-field v-model="form.contactsName" name="contactsName" label="紧急联系人" placeholder="紧急联系人" :rules="[{ required: true, message: '请填写紧急联系人' }]" />
+          <!-- 紧急联系人电话 -->
+          <van-field v-model="form.contactsTel" name="contactsTel" label="紧急联系人电话" placeholder="紧急联系人电话" :rules="[{ required: true, message: '请填写紧急联系人电话' }]" />
+
+          <!-- 快递邮寄地址（省市区） -->
+          <van-field readonly clickable name="area" label="地区选择" placeholder="点击选择省市区"
+          :value="areaString"  @click="showArea = true" />
           <van-popup v-model="showArea" position="bottom">
             <van-area :area-list="areaList" @confirm="onConfirmAddress" @cancel="showArea = false" />
           </van-popup>
-          <van-field name="uploader" label="文件上传">
+          <!--  快递邮寄详细地址-->
+          <van-field v-model="form.address" name="address" label="快递邮寄详细地址" placeholder="快递邮寄详细地址" :rules="[{ required: true, message: '快递邮寄详细地址' }]" />
+         
+          <!-- 完赛证书 -->
+          <van-field name="uploader" label="文件上传" >
             <template #input>
               <van-uploader v-model="uploader" />
             </template>
           </van-field>
+
+          <!-- 参赛协议 -->
+          <!-- <van-field name="agree" label="参赛协议">
+            <template #input>
+              <van-checkbox v-model="agree"  name="1" shape="square" />
+            </template>
+          </van-field> -->
+
           <div style="margin: 16px;">
             <van-button round block type="info" native-type="submit">提交</van-button>
           </div>
@@ -43,8 +82,8 @@
 <script>
   import HeadBar from "@/components/HeadBar.vue";
   import { areaList } from '@vant/area-data';
-  import { getQueryString, fetchHttp, formatTime } from "@/util/fn.js";
-  
+  import { getQueryString, fetchHttp, formatTime, getCookie } from "@/util/fn.js";
+
 console.log(1111,areaList);
   import {
     Toast,
@@ -75,16 +114,53 @@ console.log(1111,areaList);
     },
     data() {
       return {
-        matchName: '',
         username: '',
-        radio: '',
-        columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
-        showPicker: false,
-        value: '',
-        address: '',
+        userId: getCookie('USERID'),
+        
+        matchName: '',
+        matchId: getQueryString('matchId'),
+        projectId: getQueryString('projectId'),
+        price: getQueryString('price'),
+        matchInfo: {},
+        originData:{},  //原始资料数据
+
+        menuList: [
+          {
+            name: '参赛报名',
+            matchId: getQueryString('matchId'),
+            projectId: getQueryString('projectId'),
+          },
+        ],
+        areaString:'',  //浙江省/杭州市/西湖区   
+        areaList:areaList,
+        bloodTypeArr:['A','B','AB','O','其他'],
+        dressSizeArr:['S','M','L','XL','2XL','3XL'],
+        typeArr:['身份证','护照','其他'],
         showArea: false,
-        areaList,
+        showBloodType:false,
+        showDressSize:false,
+        showType:false,
+
         uploader: [{ url: 'https://img01.yzcdn.cn/vant/leaf.jpg' }],
+
+        form:{
+          name:'',  //真实姓名
+          sex: 1,
+          bloodType:'', //血型
+          dressSize: '',
+          type:'',  //证件类型
+          number:'',  //身份证号码
+          tel:'',
+          contactsName:'',
+          contactsTel: '',
+          nationality: '中国',
+          province: "浙江省",
+          city: "杭州市",
+          county: "西湖区",
+          address: "",
+          url: "", //完赛证书
+          agree: true
+        }
       };
     },
     computed: {
@@ -92,21 +168,129 @@ console.log(1111,areaList);
     mounted() {
       //获取赛事详情
       this.getGameDetail();
+      this.abc();
     },
     methods: {
-      onConfirmAddress(values) {
-      this.address = values
-        .filter((item) => !!item)
-        .map((item) => item.name)
-        .join('/');
-      this.showArea = false;
-    },
-      onConfirm(value) {
-        this.value = value;
-        this.showPicker = false;
+      onBloodType(value) {
+        this.form.bloodType = value;
+        this.showBloodType = false;
       },
+      onDressSize(value) {
+        this.form.dressSize = value;
+        this.showDressSize = false;
+      },
+      onType(value) {
+        this.form.type = value;
+        this.showType = false;
+      },
+
+      onConfirmAddress(values) {
+        this.areaString = values
+          .filter((item) => !!item)
+          .map((item) => item.name)
+          .join('/');
+        console.log(this.areaString);
+        
+        this.showArea = false;
+      },
+
+      //表单验证通过时的提交
       onSubmit(values) {
-        console.log(values)
+        console.log(values);
+          //校验省市区
+        if (this.areaString.length<1) {
+          Toast('请正确选择省市区！');
+          return;
+        }
+
+        if (!this.form.agree) {
+          Toast('请仔细阅读并同意参赛协议');
+          return;
+        }
+
+        var areaArr = this.areaString.split('/');
+        //用户id
+        // let postData = Object.assign(values, {
+        //   matchId: this.matchId,
+        //   projectId: this.projectId,
+        //   userId: this.userId,
+
+        //   nationality: '中国',
+        //   province: areaArr[0],
+        //   city: areaArr[1],
+        //   county: areaArr[2],
+        //   url: values.uploader[0].url,
+        //   agree: this.form.agree
+        // });
+
+        let postData = Object.assign(this.form, {
+          matchId: this.matchId,
+          projectId: this.projectId,
+          userId: this.userId,
+
+          nationality: '中国',
+          province: areaArr[0],
+          city: areaArr[1],
+          county: areaArr[2],
+          url: values.uploader[0].url
+        });
+
+        // let postData = {
+        //   address: "古荡街道xxx楼",
+        //   agree: true,
+        //   area: "北京市/北京市/朝阳区",
+        //   bloodType: "A",
+        //   city: "北京市",
+        //   contactsName: "大张伟",
+        //   contactsTel: "18801234567",
+        //   county: "朝阳区",
+        //   dressSize: "S",
+        //   matchId: "75",
+        //   name: "邵心心",
+        //   nationality: "中国",
+        //   number: "530121198903119561",
+        //   projectId: "160",
+        //   province: "北京市",
+        //   sex: "2",
+        //   tel: "18812345678",
+        //   type: "身份证",
+        //   url: "https://img01.yzcdn.cn/vant/leaf.jpg",
+        //   userId: "3005"
+        // };
+        //校验健康证明
+        // if (!postData.url) {
+        //   showNotification('error', '提示', '请上传一年内完赛证书！');
+        //   return;
+        // }
+        console.log(postData);
+        console.log('提交数据', postData);
+          fetchHttp('marathon/signUp/project', postData, 'GET', 'showError').then(res => {
+            if (res && res.code === 0) {
+              if (res.data) {
+                if (!this.price || this.price === '0') {
+                  Toast.success(
+                    '提交成功，请在规定时间内上传完赛证明，否则无法获取证书',
+                  );
+                  // 跳转到我的赛事页面
+                  // setTimeout(() => {
+                  //   window.location.href = 'personalSignUp.html';  
+                  // }, 3000);
+                } else {
+                  Toast.success('提交成功，请尽快付款！');
+                  // 跳转到我的支付页面
+                  // setTimeout(() => {
+                  //   window.location.href = `pay.html?id=${res.data}&matchName=${this.state.matchName}&price=${this.state.price}`;
+                  // }, 2500);
+                }
+
+              } else {
+                Toast.fail(res.message);
+              }
+            }else{
+              Toast.fail(res.message);
+            }
+        });
+        
       },
       getGameDetail() {
         let id = getQueryString('matchId');
@@ -128,6 +312,25 @@ console.log(1111,areaList);
         } else {
           Toast('没有找到相关的赛事项目!');
         }
+      },
+      abc(){
+        //获取基本信息
+        fetchHttp('marathon/getUserInfo', { id: this.userId }, 'GET').then(res => {
+          if (res && res.code === 0) {
+            let data = res.data;
+            if (data) {
+              // let picPath = this.transferUrlToArray(data.url);
+              // let originData = Object.assign(data, { picPath });
+              this.userName = data.username;
+              if(data.province && data.city && data.county){
+                this.areaString = data.province+'/'+ data.city+'/'+ data.county;
+              }
+
+              Object.assign(this.form, data);
+              console.log('原始数据信息',this.form);
+            }
+          }
+        });
       }
     }
   };

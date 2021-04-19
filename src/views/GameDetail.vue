@@ -147,6 +147,9 @@
       goLink(item){
         let baomingHref = `gameSignUp?matchId=${this.matchId}&projectId=${item.id}`;
         let gameList = 'gameList'
+        if(item.price){
+          baomingHref+= `&price=${item.price}`;
+        }
         if(item.state === 2){
           window.location.href = baomingHref;
         }else{
