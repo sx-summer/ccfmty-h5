@@ -16,8 +16,8 @@
           <van-field name="sex" label="性别">
             <template #input>
               <van-radio-group v-model="form.sex" direction="horizontal">
-                <van-radio name="1">男</van-radio>
-                <van-radio name="2">女</van-radio>
+                <van-radio name="1" value="1">男</van-radio>
+                <van-radio name="2" value="2">女</van-radio>
               </van-radio-group>
             </template>
           </van-field>
@@ -190,7 +190,7 @@
       this.showPrice =  this.price ? parseFloat(this.price) * 100 : 0;
       //获取赛事详情
       this.getGameDetail();
-      // this.initOrginData();
+      this.initOrginData();
     },
     methods: {
       onBloodType(value) {
@@ -324,6 +324,7 @@
                 if (res.data && res.data.matchName) {
                   this.matchInfo = res.data;
                   this.matchName = res.data.matchName;
+                 
                   console.log(this.matchInfo, this.matchName);
                 } else {
                   Toast('没有找到相关赛事!');
@@ -347,7 +348,7 @@
               if(data.province && data.city && data.county){
                 this.areaString = data.province+'/'+ data.city+'/'+ data.county;
               }
-
+              // this.showAgree = !data.agree;
               Object.assign(this.form, data);
               console.log('原始数据信息',this.form);
             }
