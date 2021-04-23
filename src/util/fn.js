@@ -34,6 +34,7 @@ export const fetchHttp = (url, params, type, showError) => {
       return response.json();
     })
     .then(function (res) {
+      // debugger;
       //未登录
       if (res.code === 0) {
         return res

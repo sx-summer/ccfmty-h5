@@ -13,6 +13,7 @@ import MyGame from "../views/MyGame.vue";
 import MyInfo from "../views/MyInfo.vue";
 import MyCertificate from "../views/MyCertificate.vue";
 import GameSignUp from "../views/GameSignUp.vue";
+import Pay from "../views/Pay.vue";
 
 
 Vue.use(VueRouter);
@@ -31,6 +32,11 @@ const routes = [
         path: "/gameSignUp",
         name: "GameSignUp",
         component: GameSignUp
+    },
+    {
+        path: "/pay",
+        name: "Pay",
+        component: Pay
     },
     {
         path: "/myGame",

@@ -2,7 +2,11 @@
   <div class="gameSignUp">
     <HeadBar title="报名" />
     <div class="gameSignUpInfo">
-      <h3 class="signUpTitle">{{matchName}}</h3>
+      <div class="game-card">
+        <h3 class="signUpTitle">{{matchName}}</h3>
+      </div>
+      
+
       <div class="signUpForm">
         <van-form @submit="onSubmit">
 
@@ -64,27 +68,40 @@
           </van-field>
 
           <!-- 参赛协议 -->
-          <!-- <van-field name="agree" label="参赛协议">
+          <van-field name="agree" label="参赛协议">
             <template #input>
-              <van-checkbox v-model="agree"  name="1" shape="square" />
+              <van-checkbox v-model="form.agree"  shape="square"></van-checkbox>
+              <a class="readAgree" href="javascript:void(0);" @click="showAgree=true">阅读并同意参赛协议</a>
             </template>
-          </van-field> -->
+          </van-field>
 
           <div style="margin: 16px;">
             <van-button round block type="info" native-type="submit">提交</van-button>
           </div>
         </van-form>
       </div>
+
+      <van-submit-bar :price="showPrice" button-text="提交订单" @submit="onSubmit" native-type="submit">
+        <!-- <van-icon name="arrow-down" size="22" @click="onShowPriceDetail"/> -->
+        <!-- <template #tip>
+          你的收货地址不支持同城送, <span @click="onClickLink">修改地址</span>
+        </template> -->
+      </van-submit-bar>
+
+      <!-- <van-popup v-model:show="showPriceDetail">price</van-popup> -->
+      <!-- 参赛协议dialog -->
+      <Agreement @onAgree="onAgree" :show="showAgree"></Agreement>
     </div>
   </div>
 </template>
 
 <script>
   import HeadBar from "@/components/HeadBar.vue";
+  // import PayType from "@/components/PayType.vue";
+  import Agreement from "@/components/Agreement.vue";
   import { areaList } from '@vant/area-data';
   import { getQueryString, fetchHttp, formatTime, getCookie } from "@/util/fn.js";
 
-console.log(1111,areaList);
   import {
     Toast,
     Button,
@@ -92,10 +109,13 @@ console.log(1111,areaList);
     Field,
     Radio,
     RadioGroup,
+    Checkbox,
+    CheckboxGroup,
     Popup,
     Picker,
     Area,
-    Uploader
+    Uploader,
+    SubmitBar,
   } from "vant";
 
   export default {
@@ -107,30 +127,28 @@ console.log(1111,areaList);
       [Field.name]: Field,
       [Radio.name]: Radio,
       [RadioGroup.name]: RadioGroup,
+      [Checkbox.name]: Checkbox,
+      [CheckboxGroup.name]: CheckboxGroup,
       [Popup.name]: Popup,
       [Picker.name]: Picker,
       [Area.name]: Area,
-      [Uploader.name]: Uploader
+      [Uploader.name]: Uploader,
+      [SubmitBar.name]: SubmitBar,
+      Agreement,
     },
     data() {
       return {
+        currentPay:'',  //支付方式
+        
         username: '',
         userId: getCookie('USERID'),
-        
         matchName: '',
         matchId: getQueryString('matchId'),
         projectId: getQueryString('projectId'),
-        price: getQueryString('price'),
+        price: getQueryString('price') ,
+        showPrice:0,
         matchInfo: {},
-        originData:{},  //原始资料数据
-
-        menuList: [
-          {
-            name: '参赛报名',
-            matchId: getQueryString('matchId'),
-            projectId: getQueryString('projectId'),
-          },
-        ],
+     
         areaString:'',  //浙江省/杭州市/西湖区   
         areaList:areaList,
         bloodTypeArr:['A','B','AB','O','其他'],
@@ -140,6 +158,9 @@ console.log(1111,areaList);
         showBloodType:false,
         showDressSize:false,
         showType:false,
+
+        showPriceDetail: false,
+        showAgree:true,
 
         uploader: [{ url: 'https://img01.yzcdn.cn/vant/leaf.jpg' }],
 
@@ -159,16 +180,17 @@ console.log(1111,areaList);
           county: "西湖区",
           address: "",
           url: "", //完赛证书
-          agree: true
+          agree: false
         }
       };
     },
     computed: {
     },
     mounted() {
+      this.showPrice =  this.price ? parseFloat(this.price) * 100 : 0;
       //获取赛事详情
       this.getGameDetail();
-      this.abc();
+      // this.initOrginData();
     },
     methods: {
       onBloodType(value) {
@@ -183,7 +205,7 @@ console.log(1111,areaList);
         this.form.type = value;
         this.showType = false;
       },
-
+      
       onConfirmAddress(values) {
         this.areaString = values
           .filter((item) => !!item)
@@ -232,7 +254,7 @@ console.log(1111,areaList);
           province: areaArr[0],
           city: areaArr[1],
           county: areaArr[2],
-          url: values.uploader[0].url
+          // url: values.uploader[0].url
         });
 
         // let postData = {
@@ -264,31 +286,31 @@ console.log(1111,areaList);
         // }
         console.log(postData);
         console.log('提交数据', postData);
-          fetchHttp('marathon/signUp/project', postData, 'GET', 'showError').then(res => {
-            if (res && res.code === 0) {
-              if (res.data) {
-                if (!this.price || this.price === '0') {
-                  Toast.success(
-                    '提交成功，请在规定时间内上传完赛证明，否则无法获取证书',
-                  );
-                  // 跳转到我的赛事页面
-                  // setTimeout(() => {
-                  //   window.location.href = 'personalSignUp.html';  
-                  // }, 3000);
-                } else {
-                  Toast.success('提交成功，请尽快付款！');
-                  // 跳转到我的支付页面
-                  // setTimeout(() => {
-                  //   window.location.href = `pay.html?id=${res.data}&matchName=${this.state.matchName}&price=${this.state.price}`;
-                  // }, 2500);
-                }
-
+        fetchHttp('marathon/signUp/project', postData, 'GET', 'showError').then(res => {
+          if (res && res.code === 0) {
+            if (res.data) {
+              if (!this.price || this.price === '0') {
+                Toast.success(
+                  '提交成功，请在规定时间内上传完赛证明，否则无法获取证书',
+                );
+                // 跳转到我的赛事页面
+                setTimeout(() => {
+                  window.location.href = 'MyGame';  //personalSignUp.html
+                }, 3000);
               } else {
-                Toast.fail(res.message);
+                Toast.success('提交成功，请尽快付款！');
+                // 跳转到我的支付页面
+                setTimeout(() => {
+                  window.location.href = `Pay?id=${res.data}&matchName=${this.matchName}&price=${this.price}`;
+                }, 2500);
               }
-            }else{
+
+            } else {
               Toast.fail(res.message);
             }
+          }else{
+            Toast.fail(res.message);
+          }
         });
         
       },
@@ -313,7 +335,7 @@ console.log(1111,areaList);
           Toast('没有找到相关的赛事项目!');
         }
       },
-      abc(){
+      initOrginData(){
         //获取基本信息
         fetchHttp('marathon/getUserInfo', { id: this.userId }, 'GET').then(res => {
           if (res && res.code === 0) {
@@ -331,19 +353,61 @@ console.log(1111,areaList);
             }
           }
         });
+      },
+      onFormSubmit(){
+        // console.log(this.currentPay);
+        this.onSubmit();
+      },
+     
+      onAgree(e){
+        this.form.agree = e.agree;
+        this.showAgree = false;
       }
     }
   };
 </script>
 <style scope lang="less">
+
+html, body {
+    // height: 100%;
+    // overflow: hidden;
+}
+body{
+    position: relative;
+}
+/*遮罩层显示时body的样式*/
+.notScroll {
+  overflow: hidden;
+
+}
+.game-card{
+  background: #fff;
+  margin-bottom: 10px;
+  padding:10px;
+}
+
   .gameSignUp {
     color: #333333;
+    background: #efefef;
   }
 
   .signUpTitle {
-    border-bottom: 2px solid #ddd;
-    padding: 0 10px 10px 10px;
+    // border-bottom: 2px solid #ddd;
+    padding: 10px 0;
     font-size: 16px;
+    margin:0;
+  }
+  .van-submit-bar{
+    border-top: 1px solid #efefef;
+  }
+  .van-submit-bar__text{
+    text-align: left;
+  }
+  .readAgree{
+    margin-left:15px;
+    color:#1890ff;
+
+    text-decoration: underline;
   }
 
 </style>
