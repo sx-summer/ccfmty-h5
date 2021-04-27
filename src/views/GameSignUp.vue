@@ -81,12 +81,12 @@
         </van-form>
       </div>
 
-      <van-submit-bar :price="showPrice" button-text="提交订单" @submit="onSubmit" native-type="submit">
+      <!-- <van-submit-bar :price="showPrice" button-text="提交订单" @submit="onSubmit" native-type="submit"> -->
         <!-- <van-icon name="arrow-down" size="22" @click="onShowPriceDetail"/> -->
         <!-- <template #tip>
           你的收货地址不支持同城送, <span @click="onClickLink">修改地址</span>
         </template> -->
-      </van-submit-bar>
+      <!-- </van-submit-bar> -->
 
       <!-- <van-popup v-model:show="showPriceDetail">price</van-popup> -->
       <!-- 参赛协议dialog -->
@@ -257,28 +257,6 @@
           // url: values.uploader[0].url
         });
 
-        // let postData = {
-        //   address: "古荡街道xxx楼",
-        //   agree: true,
-        //   area: "北京市/北京市/朝阳区",
-        //   bloodType: "A",
-        //   city: "北京市",
-        //   contactsName: "大张伟",
-        //   contactsTel: "18801234567",
-        //   county: "朝阳区",
-        //   dressSize: "S",
-        //   matchId: "75",
-        //   name: "邵心心",
-        //   nationality: "中国",
-        //   number: "530121198903119561",
-        //   projectId: "160",
-        //   province: "北京市",
-        //   sex: "2",
-        //   tel: "18812345678",
-        //   type: "身份证",
-        //   url: "https://img01.yzcdn.cn/vant/leaf.jpg",
-        //   userId: "3005"
-        // };
         //校验健康证明
         // if (!postData.url) {
         //   showNotification('error', '提示', '请上传一年内完赛证书！');
@@ -295,13 +273,13 @@
                 );
                 // 跳转到我的赛事页面
                 setTimeout(() => {
-                  window.location.href = 'MyGame';  //personalSignUp.html
+                  window.location.href = 'myGame';  //personalSignUp.html
                 }, 3000);
               } else {
                 Toast.success('提交成功，请尽快付款！');
                 // 跳转到我的支付页面
                 setTimeout(() => {
-                  window.location.href = `Pay?id=${res.data}&matchName=${this.matchName}&price=${this.price}`;
+                  window.location.href = `pay?id=${res.data}&matchName=${this.matchName}&price=${this.price}`;
                 }, 2500);
               }
 

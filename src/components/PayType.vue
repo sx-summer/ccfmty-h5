@@ -32,7 +32,7 @@ export default {
     name:'PayType',
     data(){
         return {
-            currentPay: '', 
+            currentPay: 'wechatPay', 
         }
     },
     methods: {
