@@ -214,7 +214,7 @@
   }
   .loginOutBox{
     width: 90%;
-    margin: 150px 5% 0px 5%;
+    margin: 100px 5% 0px 5%;
   }
   .loginIndex {
     width: 100vw;

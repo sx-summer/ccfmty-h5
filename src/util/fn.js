@@ -8,7 +8,7 @@ export const fetchHttp = (url, params, type, showError) => {
     postUrl = 'http://ccfmty.com/' + url;
   }
 
-  let loginUrl = url.includes('/manage/') ? 'adminLogin.html' : 'login.html';
+  let loginUrl = url.includes('/manage/') ? 'adminLogin' : 'login';
   let postData = {
     method: type || 'POST',
     mode: 'cors',

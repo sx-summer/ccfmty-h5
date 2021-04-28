@@ -70,6 +70,7 @@
   }
   .bottombar{
     text-align: left;
+    color:#333;
   }
   .beian{
     background-color: #000;

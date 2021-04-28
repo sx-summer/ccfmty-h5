@@ -13,7 +13,7 @@
     </van-popup>
 
     <div class="game-card">
-      <p class="pay-detail-title">您正在报名参加【{{ matchName }}】 赛事</p>
+      <p class="pay-detail-title">您正在报名参加 "{{ matchName }}" 赛事</p>
       <p>
         费用为<span class="money">&yen;{{ price }} </span>元
       </p>
@@ -207,9 +207,12 @@ export default {
   },
 };
 </script>
-<style lang="less">
-body{
-  background:#efefef;
+<style lang="less" scope>
+.game-pay {
+    height: calc(100vh - 50px);
+    background-color: #f8f8f8;
+    padding-bottom: 50px;
+    // margin-top: -16px;
 }
 .game-card{
   font-size:14px;

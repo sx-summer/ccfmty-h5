@@ -188,6 +188,7 @@
 <style scope lang="less">
     .home {
         text-align: center;
+        color:#fff;
     }
 
     .my-swipe .van-swipe-item {
