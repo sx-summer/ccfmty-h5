@@ -84,8 +84,7 @@
       <!-- <van-submit-bar :price="showPrice" button-text="提交订单" @submit="onSubmit" native-type="submit"> -->
         <!-- <van-icon name="arrow-down" size="22" @click="onShowPriceDetail"/> -->
         <!-- <template #tip>
-          你的收货地址不支持同城送, <span @click="onClickLink">修改地址</span>
-        </template> -->
+              </template> -->
       <!-- </van-submit-bar> -->
 
       <!-- <van-popup v-model:show="showPriceDetail">price</van-popup> -->
@@ -138,8 +137,6 @@
     },
     data() {
       return {
-        currentPay:'',  //支付方式
-        
         username: '',
         userId: getCookie('USERID'),
         matchName: '',
@@ -148,7 +145,8 @@
         price: getQueryString('price') ,
         showPrice:0,
         matchInfo: {},
-     
+        showPriceDetail: false,
+
         areaString:'',  //浙江省/杭州市/西湖区   
         areaList:areaList,
         bloodTypeArr:['A','B','AB','O','其他'],
@@ -158,11 +156,8 @@
         showBloodType:false,
         showDressSize:false,
         showType:false,
-
-        showPriceDetail: false,
-        showAgree:true,
-
         uploader: [{ url: 'https://img01.yzcdn.cn/vant/leaf.jpg' }],
+        showAgree:true,
 
         form:{
           name:'',  //真实姓名
@@ -190,7 +185,7 @@
       this.showPrice =  this.price ? parseFloat(this.price) * 100 : 0;
       //获取赛事详情
       this.getGameDetail();
-      this.initOrginData();
+      this.getOriginData();
     },
     methods: {
       onBloodType(value) {
@@ -205,7 +200,6 @@
         this.form.type = value;
         this.showType = false;
       },
-      
       onConfirmAddress(values) {
         this.areaString = values
           .filter((item) => !!item)
@@ -230,26 +224,18 @@
           return;
         }
 
+        //校验健康证明
+        // if (!postData.url) {
+        //   showNotification('error', '提示', '请上传一年内完赛证书！');
+        //   return;
+        // }
+
         var areaArr = this.areaString.split('/');
-        //用户id
-        // let postData = Object.assign(values, {
-        //   matchId: this.matchId,
-        //   projectId: this.projectId,
-        //   userId: this.userId,
-
-        //   nationality: '中国',
-        //   province: areaArr[0],
-        //   city: areaArr[1],
-        //   county: areaArr[2],
-        //   url: values.uploader[0].url,
-        //   agree: this.form.agree
-        // });
-
         let postData = Object.assign(this.form, {
           matchId: this.matchId,
           projectId: this.projectId,
           userId: this.userId,
-
+          
           nationality: '中国',
           province: areaArr[0],
           city: areaArr[1],
@@ -257,12 +243,6 @@
           // url: values.uploader[0].url
         });
 
-        //校验健康证明
-        // if (!postData.url) {
-        //   showNotification('error', '提示', '请上传一年内完赛证书！');
-        //   return;
-        // }
-        console.log(postData);
         console.log('提交数据', postData);
         fetchHttp('marathon/signUp/project', postData, 'GET', 'showError').then(res => {
           if (res && res.code === 0) {
@@ -314,7 +294,7 @@
           Toast('没有找到相关的赛事项目!');
         }
       },
-      initOrginData(){
+      getOriginData(){
         //获取基本信息
         fetchHttp('marathon/getUserInfo', { id: this.userId }, 'GET').then(res => {
           if (res && res.code === 0) {
@@ -333,11 +313,6 @@
           }
         });
       },
-      onFormSubmit(){
-        // console.log(this.currentPay);
-        this.onSubmit();
-      },
-     
       onAgree(e){
         this.form.agree = e.agree;
         this.showAgree = false;
